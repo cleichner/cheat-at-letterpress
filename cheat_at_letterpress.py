@@ -3,6 +3,7 @@ from itertools import combinations
 from string import ascii_lowercase as alphabet
 
 import multiprocessing
+import readline
 
 board_string = raw_input("Enter the letters on the board: ")[:25].lower()
 board = Counter(board_string)
@@ -15,11 +16,12 @@ with open('letterpress_dict') as d:
             if letter in word:
                 words[letter].add(word)
 
+# look at partitioning the letters differently to increase cache hits
 cache = {}
 def all_words_with(letters):
     letters = frozenset(letters)
     if letters not in cache:
-        if len(letters) >= 2:
+        if len(letters) >= 3: # so subproblems have at least a pair of letters
             even = (letter for i, letter in enumerate(letters) if i % 2 == 0)
             odd = (letter for i, letter in enumerate(letters) if i % 2 == 1)
             cache[letters] = all_words_with(even).intersection(all_words_with(odd))
