@@ -4,6 +4,7 @@ from string import ascii_lowercase as alphabet
 
 import multiprocessing
 import readline
+import sys
 
 board_string = raw_input("Enter the letters on the board: ")[:25].lower()
 board = Counter(board_string)
@@ -46,8 +47,12 @@ def score(word):
 
 neutral = board
 while neutral:
-    us = Counter(raw_input("Enter your letters: ").lower())
-    them = Counter(raw_input("Enter their letters: ").lower())
+    try:
+        us = Counter(raw_input("Enter your letters: ").lower())
+        them = Counter(raw_input("Enter their letters: ").lower())
+    except EOFError:
+        sys.exit(0)
+
     neutral = board - us - them
 
     max_word = 0
