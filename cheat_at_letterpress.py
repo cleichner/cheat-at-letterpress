@@ -48,6 +48,7 @@ neutral = board
 while neutral:
     us = Counter(raw_input("Enter your letters: ").lower())
     them = Counter(raw_input("Enter their letters: ").lower())
+
     neutral = board - us - them
 
     max_word = 0
